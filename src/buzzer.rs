@@ -19,7 +19,7 @@ pub struct Buzzer<'a> {
 }
 impl<'a> Buzzer<'a> {
     pub fn new(timer: peripherals::TIM1, p: peripherals::PA9) -> Self {
-        let pin = PwmPin::new_ch2(p, OutputType::PushPull);
+        
         let pwm = SimplePwm::new(
             timer, None, Some(pin), None, None, Hertz(2000), CountingMode::EdgeAlignedUp
         );
@@ -58,6 +58,10 @@ impl<'a> Buzzer<'a> {
             self.pwm.disable(self.channel);
             Delay.delay_ms(half_beat)
         }
+    }
+    pub fn buzz_test(&mut self) {
+        self.pwm.set_frequency(Hertz(1000));
+        self.pwm.enable(self.channel);
     }
 
 }
